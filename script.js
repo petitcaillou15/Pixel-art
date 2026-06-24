@@ -35,14 +35,24 @@ function init() {
 
 function render() {
   // TODO: Loop through every row and column in the grid
-  
-  // For each cell:
-  //   1. Set ctx.fillStyle to grid[row][col]
-  //   2. Use ctx.fillRect to draw the cell
-  //   3. Set ctx.strokeStyle to "#333333" and ctx.lineWidth to 0.5
-  //   4. Use ctx.strokeRect to draw the grid lines
-  // TODO: Add hover preview
+  for(let row = 0; row < gridSize; row++){
+    for(let col = 0; col < gridSize; col++){
+      ctx.fillStyle = grid[row][col];
+      ctx.fillRect(col * cellSize, row * cellSize, cellSize, cellSize);
+      ctx.strokeStyle = "#333333";
+      ctx.lineWidth = 0.5;
+      ctx.strokeRect(col * cellSize, row * cellSize, cellSize, cellSize);
+    } 
+  }
   // If hoveredCell exists and we're not drawing:
+  if (hoveredCell && !isDrawing) {
+    const { row, col } = hoveredCell;
+    const previewColor = currentTool === "eraser" ? "#ffffff" : currentColor;
+    ctx.fillStyle = previewColor;
+    ctx.globalAlpha = 0.4;
+    ctx.fillRect(col * cellSize, row * cellSize, cellSize, cellSize);
+    ctx.globalAlpha = 1.0;
+  }
   //   1. Get the row and col from hoveredCell
   //   2. Set previewColor based on currentTool (eraser = "#ffffff", otherwise currentColor)
   //   3. Set ctx.globalAlpha to 0.4
