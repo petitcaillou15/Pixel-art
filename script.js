@@ -8,7 +8,7 @@ let grid = [];
 let currentColor = "#000000";
 let currentTool = "pen";
 let isDrawing = false;
-let hoveredCell = null;
+  let hoveredCell = null;
 
 const PRESET_COLORS = [
   "#000000", "#ffffff", "#ff0000",
@@ -31,10 +31,8 @@ function init() {
   render();
 }
 
-// --- Step 1-b: Render the grid onto the canvas ---
 
 function render() {
-  // TODO: Loop through every row and column in the grid
   for(let row = 0; row < gridSize; row++){
     for(let col = 0; col < gridSize; col++){
       ctx.fillStyle = grid[row][col];
@@ -44,7 +42,7 @@ function render() {
       ctx.strokeRect(col * cellSize, row * cellSize, cellSize, cellSize);
     } 
   }
-  // If hoveredCell exists and we're not drawing:
+
   if (hoveredCell && !isDrawing) {
     const { row, col } = hoveredCell;
     const previewColor = currentTool === "eraser" ? "#ffffff" : currentColor;
@@ -53,31 +51,28 @@ function render() {
     ctx.fillRect(col * cellSize, row * cellSize, cellSize, cellSize);
     ctx.globalAlpha = 1.0;
   }
-  //   1. Get the row and col from hoveredCell
-  //   2. Set previewColor based on currentTool (eraser = "#ffffff", otherwise currentColor)
-  //   3. Set ctx.globalAlpha to 0.4
-  //   4. Draw the preview with ctx.fillRect
-  //   5. Reset ctx.globalAlpha to 1.0
 }
-
-// --- Step 2-a: Map mouse position to grid cell ---
 
 function getCellFromMouse(e) {
-  // TODO: Use canvas.getBoundingClientRect() to get the canvas position
-  // TODO: Calculate x and y relative to the canvas
-  // TODO: Convert to col and row using Math.floor(x / cellSize) and Math.floor(y / cellSize)
-  // TODO: Return { row, col } if within bounds, otherwise return null
+  const rect = canvas.getBoundingClientRect();
+  const x = e.clientX - rect.left;
+  const y = e.clientY - rect.top;
+  const col = Math.floor(x / cellSize);
+  const row = Math.floor(y / cellSize);
+  if (row >= 0 && row < gridSize && col >= 0 && col < gridSize) {
+    return { row, col };
+  }
+  return null;
 }
-
-// --- Step 2-b: Paint a single cell ---
 
 function paintCell(row, col) {
-  // TODO: If currentTool is "pen", set grid[row][col] to currentColor
-  // TODO: If currentTool is "eraser", set grid[row][col] to "#ffffff"
-  // TODO: Call render()
+  if (currentTool === "pen"){
+    grid[row][col] = currentColor;
+  } else if (currentTool === "eraser") {
+    grid[row][col] = "#ffffff";
+  }
+  render();
 }
-
-// --- Step 2-c: Mouse event handlers ---
 
 canvas.addEventListener("mousedown", (e) => {
   // TODO: Set isDrawing to true
