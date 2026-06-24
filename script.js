@@ -75,27 +75,35 @@ function paintCell(row, col) {
 }
 
 canvas.addEventListener("mousedown", (e) => {
-  // TODO: Set isDrawing to true
-  // TODO: Get the cell from getCellFromMouse(e)
-  // TODO: If cell exists:
-  //   - If currentTool is "fill", call floodFill(cell.row, cell.col, currentColor)
-  //   - Otherwise, call paintCell(cell.row, cell.col)
+  isDrawing = true;
+  const cell = getCellFromMouse(e);
+  if (cell) {
+    if (currentTool === "fill") {
+      floodFill(cell.row, cell.col, currentColor);
+    } else {
+      paintCell(cell.row, cell.col);
+    }
+  }
 });
 
 canvas.addEventListener("mousemove", (e) => {
-  // TODO: Get the cell and set hoveredCell
-  // TODO: If isDrawing AND currentTool is not "fill" AND cell exists, call paintCell
-  // TODO: Otherwise, call render() to update the hover preview
+  const cell = getCellFromMouse(e);
+  hoveredCell = cell;
+  if (isDrawing && currentTool !== "fill" && cell) {
+    paintCell(cell.row, cell.col);
+  } else {
+    render();
+  }
 });
 
 canvas.addEventListener("mouseup", () => {
-  // TODO: Set isDrawing to false
+  isDrawing = false;
 });
 
 canvas.addEventListener("mouseleave", () => {
-  // TODO: Set isDrawing to false
-  // TODO: Set hoveredCell to null
-  // TODO: Call render()
+  isDrawing = false;
+  hoveredCell = null;
+  render();
 });
 
 // --- Step 3: Flood fill algorithm ---
