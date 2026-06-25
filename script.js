@@ -128,8 +128,6 @@ function floodFill(row, col, newColor) {
   render();
 }
 
-// --- Step 4-a: Build the color palette ---
-
 function buildPalette() {
   // TODO: Get the palette element by id "color-palette"
   // TODO: Loop through PRESET_COLORS and for each color:
