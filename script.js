@@ -8,7 +8,7 @@ let grid = [];
 let currentColor = "#000000";
 let currentTool = "pen";
 let isDrawing = false;
-  let hoveredCell = null;
+let hoveredCell = null;
 
 const PRESET_COLORS = [
   "#000000", "#ffffff", "#ff0000",
@@ -19,7 +19,6 @@ const PRESET_COLORS = [
   "#ffcc00",
 ];
 
-// --- Step 1-a: Initialize the grid and canvas ---
 
 function init() {
   grid = Array.from({ length: gridSize }, () => Array(gridSize).fill("#ffffff"));
@@ -129,10 +128,26 @@ function floodFill(row, col, newColor) {
 }
 
 function buildPalette() {
-  // TODO: Get the palette element by id "color-palette"
-  // TODO: Loop through PRESET_COLORS and for each color:
-  //   1. Create a div element
-  //   2. Add the "color-swatch" class
+  let palette = document.getElementById("color-palette");
+  PresetColors.forEach(color => {
+    let swatch = document.createElement("div");
+    swatch.className = "color-swatch";
+    
+    if (color === currentColor) {
+      swatch.classList.add("active");
+    }
+
+    swatch.style.backgroundColor = color;
+
+    swatch.addEventListener("click", () => {
+      currentColor = color;
+      document.getElementById("custom-color").value = color;
+      document.querySelectorAll(".color-swatch").forEach(s => s.classList.remove("active"));
+      swatch.classList.add("active");
+    });
+    palette.appendChild(swatch);
+  });
+}
   //   3. If this color matches currentColor, also add the "active" class
   //   4. Set its backgroundColor to the color
   //   5. Add a click handler that:
@@ -141,7 +156,6 @@ function buildPalette() {
   //      - Removes "active" from all swatches
   //      - Adds "active" to this swatch
   //   6. Append the swatch to the palette
-}
 
 // --- Step 4-b: Custom color picker ---
 
