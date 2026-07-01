@@ -148,14 +148,6 @@ function buildPalette() {
     palette.appendChild(swatch);
   });
 }
-  //   3. If this color matches currentColor, also add the "active" class
-  //   4. Set its backgroundColor to the color
-  //   5. Add a click handler that:
-  //      - Sets currentColor to this color
-  //      - Syncs the custom color picker value
-  //      - Removes "active" from all swatches
-  //      - Adds "active" to this swatch
-  //   6. Append the swatch to the palette
 
 // --- Step 4-b: Custom color picker ---
 
